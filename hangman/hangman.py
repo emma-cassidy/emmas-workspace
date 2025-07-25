@@ -208,7 +208,6 @@ while turns_taken < max_turns:
 
 #Print correct letters but cover non guessed letters
     word = list(current_word)
-    # for i in range(0, int(len(word))):
     for i in range(len(word)):
         if word[i].upper() in correct_guesses:
             pass
