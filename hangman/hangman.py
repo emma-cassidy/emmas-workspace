@@ -42,69 +42,74 @@ def start_game():
         return  
     return language, mode
 
+def get_file_path(filename):
+    # Get the absolute path to the file in the same directory as this script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(script_dir, filename)
+
 def play_game(language, mode):
     word_bank = []
     if language == "1":
         if mode == "1":
             print("Starting Baby mode in English...")
-            with open("./en_words.txt", "r") as lines:
+            with open(get_file_path("en_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 2, 9):
                     word_bank.append(line.strip())
         elif mode == "2":
             print("Starting Easy mode in English...")
-            with open("./en_words.txt", "r") as lines:
+            with open(get_file_path("en_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 13, 20):
                     word_bank.append(line.strip())
         elif mode == "3":
             print("Starting Medium mode in English...")
-            with open("./en_words.txt", "r") as lines:
+            with open(get_file_path("en_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 24, 31):  
                     word_bank.append(line.strip())
         else:
             print("Starting Hard mode in English...")
-            with open("./en_words.txt", "r") as lines:
+            with open(get_file_path("en_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 35, 42):
                     word_bank.append(line.strip())
     elif language == "2":
         if mode == "1":
             print("Starting Baby mode in Español...")
-            with open("./es_words.txt", "r") as lines:
+            with open(get_file_path("es_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 2, 8):
                     word_bank.append(line.strip())
         elif mode == "2":
             print("Starting Easy mode in Español...")
-            with open("./es_words.txt", "r") as lines:
+            with open(get_file_path("es_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 14, 19):
                     word_bank.append(line.strip())
         elif mode == "3":
             print("Starting Medium mode in Español...")
-            with open("./es_words.txt", "r") as lines:
+            with open(get_file_path("es_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 25, 31):
                     word_bank.append(line.strip())
         else:
             print("Starting Hard mode in Español...")
-            with open("./es_words.txt", "r") as lines:
+            with open(get_file_path("es_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 36, 41):
                     word_bank.append(line.strip())
     elif language == "3":
         if mode == "1":
             print("Starting Baby mode in Deutsch...")
-            with open("./de_words.txt", "r") as lines:
+            with open(get_file_path("de_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 2, 7):
                     word_bank.append(line.strip())
         elif mode == "2":
             print("Starting Easy mode in Deutsch...")
-            with open("./de_words.txt", "r") as lines:
+            with open(get_file_path("de_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 13, 19):
                     word_bank.append(line.strip())
         elif mode == "3":
             print("Starting Medium mode in Deutsch...")
-            with open("./de_words.txt", "r") as lines:
+            with open(get_file_path("de_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 24, 30):
                     word_bank.append(line.strip())
         else:
             print("Starting Hard mode in Deutsch...")
-            with open("./de_words.txt", "r") as lines:
+            with open(get_file_path("de_words.txt"), "r", encoding="utf-8") as lines:
                 for line in islice(lines, 35, 42):
                     word_bank.append(line.strip())
     else:
@@ -193,35 +198,34 @@ while turns_taken < max_turns:
     if not guess.isalpha():
         print("Please enter a valid letter.")
         continue
-    if guess in current_word:
+    if guess in current_word.upper():
         print("Correct! :)")
-        correct_guesses.append(guess)
-
-
+        if guess not in correct_guesses:
+            correct_guesses.append(guess)
     else:
         print("Incorrect! :(")
-        incorrect_guesses.append(guess)
+        if guess not in incorrect_guesses:
+            incorrect_guesses.append(guess)
     turns_taken = len(incorrect_guesses)
 
     print("Correct guesses: " + str(correct_guesses))
     print("Incorrect guesses: " + str(incorrect_guesses))
 
-#Print correct letters but cover non guessed letters
+    # Print correct letters but cover non guessed letters
     word = list(current_word)
     for i in range(len(word)):
         if word[i].upper() in correct_guesses:
-            pass
+            pass  # Leave the letter unchanged
         else:
             word[i] = "_"
-    word = "".join(word)
-    print(word)
+    word_display = "".join(word)
+    print(word_display)
     hangman(turns_taken)
-    if word == current_word:
+    if word_display.upper() == current_word.upper():
         print("Well done!")
         break
     else:
         continue
-
 
 if turns_taken == max_turns:
     print("Incorrect guesses:" + str(incorrect_guesses))
