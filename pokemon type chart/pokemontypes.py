@@ -1,13 +1,4 @@
 #Pokemon Types Chart correct for games from 2013 onwards
-#To do:
-# 1. Type logic
-# 2. Ask user the type of move they are using.
-# 3. Ask user the type they are against
-# 4. calculate the effectiveness
-# 5. tell user:
-
-
-
 
 print("Welcome to the Pokemon type checker!")
 poke_type1 = input("Please enter attacking Pokemon type: ").lower()
